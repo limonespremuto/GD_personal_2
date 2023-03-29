@@ -75,7 +75,13 @@ public class WeaponScript : MonoBehaviour
         
         if (hit = Physics2D.Raycast(gunMuzzle.position, gunMuzzle.up, cGunStats.range, allLayer))
         {
-            hit.transform.GetComponent<>();
+            IHealth ihealt = hit.transform.GetComponent<IHealth>();
+            if (ihealt != null)
+            {
+                ihealt.TakeDamage(cGunStats.damage);
+
+            }
         }
+
     }
 }

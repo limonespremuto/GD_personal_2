@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealtScipt : MonoBehaviour
+public class HealtScipt : MonoBehaviour, IHealth
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    ScritableObjectHealth cHealthStats;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    float currentHealth;
+
+
+    private void Start()
     {
-        
+        currentHealth = cHealthStats.maxHealth;
     }
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage * (1f - cHealthStats.resistance);
+        if (currentHealth <= 0f)
+        {
+            DisableGO();
+        }
+    }
+    public void DisableGO()
+    {
+        gameObject.SetActive(false);
+    }
+}
+
+public interface IHealth
+{
+    public void TakeDamage(float damage);
+
 }
