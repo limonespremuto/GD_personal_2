@@ -19,8 +19,9 @@ public class WeaponScript : MonoBehaviour
     LineRenderer laserPointer;
     [SerializeField]
     bool IsLaserActive;
-    [SerializeField]
-    LineRenderer shootingVfxLine;
+    //[SerializeField]
+    //LineRenderer shootingVfxLine;
+    Queue<GameObject> projectilePool;
 
     [SerializeField]
     WeaponType weaponType = WeaponType.Enemy;
@@ -29,6 +30,8 @@ public class WeaponScript : MonoBehaviour
     LayerMask allLayer;
     [SerializeField]
     LayerMask geometryLayer;
+    [SerializeField, Tooltip("Tag of the pooled object")]
+    string poolTag;
 
     enum WeaponType
     {
@@ -39,7 +42,19 @@ public class WeaponScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (GOPoolScript.instance.poolDictionary.ContainsKey(poolTag))
+        {
+            projectilePool = GOPoolScript.instance.poolDictionary[poolTag];
+            ProjectileScript pS = projectilePool.Dequeue().GetComponent<ProjectileScript>();
+            if (pS != null)
+            {
+                Debug.LogWarning("there is no projectileScript inside this gameobject");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("no prefab exist with the tag " + tag);
+        }
     }
 
     private void UpdateLaserPointer()
@@ -47,7 +62,7 @@ public class WeaponScript : MonoBehaviour
         RaycastHit2D hit;
         if (hit = Physics2D.Raycast(gunMuzzle.position, gunMuzzle.up, cGunStats.range, allLayer))
         {
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
 
             laserPointer.SetPosition(0, gunMuzzle.position);
             laserPointer.SetPosition(1, hit.point);
@@ -72,15 +87,36 @@ public class WeaponScript : MonoBehaviour
     public void Shoot(bool isEnemyFiring)
     {
         RaycastHit2D hit;
+
+        //take from pool and enable it
+        GameObject projectileGO = projectilePool.Dequeue();
+        projectilePool.Enqueue(projectileGO);
+        projectileGO.transform.position = gunMuzzle.transform.position;
+        projectileGO.transform.rotation = gunMuzzle.transform.rotation;
+            
+        ProjectileScript pS = projectileGO.GetComponent<ProjectileScript>();
+        if (pS != null)
+        {
+            Debug.LogWarning("there is no projectileScript inside this gameobject");
+        }
+        projectileGO.SetActive(true);
         
         if (hit = Physics2D.Raycast(gunMuzzle.position, gunMuzzle.up, cGunStats.range, allLayer))
         {
+            Debug.Log("pew");
+
+            pS.InitializeProjcetile(gunMuzzle.transform.position, hit.point, hit.normal);
+
+            //deal damage if it can receive it
             IHealth ihealt = hit.transform.GetComponent<IHealth>();
             if (ihealt != null)
             {
                 ihealt.TakeDamage(cGunStats.damage);
-
             }
+        }
+        else
+        {
+            pS.InitializeProjcetile(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward);
         }
 
     }
