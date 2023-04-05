@@ -34,22 +34,21 @@ public class GOPoolScript : MonoBehaviour
     }
     public void CreatePool(string tag, GameObject prefab, int size)
     {
-        //if (!poolDictionary.ContainsKey(tag))
-        //{
-            poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+        Queue<GameObject> objectPool = new Queue<GameObject>();
 
-            for (int i = 0; i < size; i++)
-            {
-                GameObject obj = Instantiate(prefab);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
-            }
+        for (int i = 0; i < size; i++)
+        {
+            GameObject obj = Instantiate(prefab);
+            obj.SetActive(false);
+            objectPool.Enqueue(obj);
+        }
 
-            poolDictionary.Add(tag, objectPool);
-        //}
+        //Debug.Log(objectPool.Count);
+
+        poolDictionary.Add(tag, objectPool);
 
     }
     

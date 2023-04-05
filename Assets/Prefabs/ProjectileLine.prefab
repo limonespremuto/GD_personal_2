@@ -4948,8 +4948,10 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 4
     m_NumAlphaKeys: 3
+  lineDensitiy: 1
   endPos: {x: 0, y: 0, z: 0}
-  endEffect: {fileID: 8123835928594846627}
+  endEffectTransform: {fileID: 8123835928594846627}
+  projectileType: 0
 --- !u!1 &2412554570281545103
 GameObject:
   m_ObjectHideFlags: 0
@@ -9928,7 +9930,15 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 10, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 2, z: 0}
+  - {x: 0, y: 3, z: 0}
+  - {x: 0, y: 4, z: 0}
+  - {x: 0, y: 5, z: 0}
+  - {x: 0, y: 6, z: 0}
+  - {x: 0, y: 7, z: 0}
+  - {x: 0, y: 8, z: 0}
+  - {x: 0, y: 9, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.2
@@ -9937,13 +9947,31 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
+        value: 0.04807514
+        inSlope: 3.901726
+        outSlope: 3.901726
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.12567897
+      - serializedVersion: 3
+        time: 0.08371108
+        value: 1
+        inSlope: 0.2808155
+        outSlope: 0.2808155
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.26370534
+      - serializedVersion: 3
+        time: 1
+        value: 0.48076922
+        inSlope: -0.63376707
+        outSlope: -0.63376707
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.2980418
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

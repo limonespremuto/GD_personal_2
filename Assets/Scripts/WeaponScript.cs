@@ -22,9 +22,14 @@ public class WeaponScript : MonoBehaviour
     //[SerializeField]
     //LineRenderer shootingVfxLine;
     Queue<GameObject> projectilePool;
-
     [SerializeField]
-    WeaponType weaponType = WeaponType.Enemy;
+    AudioSource gunAiudioSource;
+    [SerializeField]
+    AudioClip[] audioClips;
+
+
+    //[SerializeField]
+    //WeaponType weaponType = WeaponType.Enemy;
 
     [SerializeField]
     LayerMask allLayer;
@@ -46,7 +51,7 @@ public class WeaponScript : MonoBehaviour
         {
             projectilePool = GOPoolScript.instance.poolDictionary[poolTag];
             ProjectileScript pS = projectilePool.Dequeue().GetComponent<ProjectileScript>();
-            if (pS != null)
+            if (pS == null)
             {
                 Debug.LogWarning("there is no projectileScript inside this gameobject");
             }
@@ -88,6 +93,7 @@ public class WeaponScript : MonoBehaviour
     {
         RaycastHit2D hit;
 
+        gunAiudioSource.PlayOneShot(audioClips[UnityEngine.Random.Range(0, audioClips.Length)]);
         //take from pool and enable it
         GameObject projectileGO = projectilePool.Dequeue();
         projectilePool.Enqueue(projectileGO);
@@ -95,7 +101,7 @@ public class WeaponScript : MonoBehaviour
         projectileGO.transform.rotation = gunMuzzle.transform.rotation;
             
         ProjectileScript pS = projectileGO.GetComponent<ProjectileScript>();
-        if (pS != null)
+        if (pS == null)
         {
             Debug.LogWarning("there is no projectileScript inside this gameobject");
         }
@@ -103,9 +109,9 @@ public class WeaponScript : MonoBehaviour
         
         if (hit = Physics2D.Raycast(gunMuzzle.position, gunMuzzle.up, cGunStats.range, allLayer))
         {
-            Debug.Log("pew");
+            //Debug.Log("pew");
 
-            pS.InitializeProjcetile(gunMuzzle.transform.position, hit.point, hit.normal);
+            pS.InitializeProjcetileHitscan(gunMuzzle.position, hit.point, hit.normal);
 
             //deal damage if it can receive it
             IHealth ihealt = hit.transform.GetComponent<IHealth>();
@@ -116,7 +122,7 @@ public class WeaponScript : MonoBehaviour
         }
         else
         {
-            pS.InitializeProjcetile(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward);
+            pS.InitializeProjcetileHitscan(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward);
         }
 
     }

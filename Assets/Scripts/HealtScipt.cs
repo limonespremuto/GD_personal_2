@@ -9,15 +9,18 @@ public class HealtScipt : MonoBehaviour, IHealth
 
     [SerializeField]
     float currentHealth;
-
+    float maxHealth;
+    float resistance;
 
     private void Start()
     {
         currentHealth = cHealthStats.maxHealth;
+        maxHealth = cHealthStats.maxHealth;
+        resistance = cHealthStats.resistance;
     }
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage * (1f - cHealthStats.resistance);
+        currentHealth -= damage * (1f - resistance);
         if (currentHealth <= 0f)
         {
             DisableGO();
