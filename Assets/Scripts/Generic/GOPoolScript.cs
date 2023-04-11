@@ -20,21 +20,21 @@ public class GOPoolScript : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        //initializing common pools.
         foreach (Pool pool in pools)
         {
             //Debug.Log(pool.tag + " " + pool.prefab.name + " " + pool.size);
             CreatePool(pool.tag, pool.prefab, pool.size);
         }
-
     }
 
     private void Start()
     {
-        //initializing common pools.
+
     }
     public void CreatePool(string tag, GameObject prefab, int size)
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         
         Queue<GameObject> objectPool = new Queue<GameObject>();
@@ -51,7 +51,7 @@ public class GOPoolScript : MonoBehaviour
         poolDictionary.Add(tag, objectPool);
 
     }
-    
+
     public void ExtendPool(string tag, GameObject prefab, int howManyToAdd)
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();

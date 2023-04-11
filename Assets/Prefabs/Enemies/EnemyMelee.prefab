@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5504549638985945776}
   - component: {fileID: 5504549638985945777}
   m_Layer: 10
-  m_Name: Enemy
+  m_Name: EnemyMelee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,15 +55,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 0}
   agroRange: 8
-  whatIsWorld:
+  stopDistance: 1
+  worldLayer:
     serializedVersion: 2
     m_Bits: 128
   entityLayer:
     serializedVersion: 2
     m_Bits: 768
-  attackRange: 0.7
+  attackRadius: 0.5
+  attackOfset: 0.5
   attackDamage: 50
   attackRecoveryTime: 1
+  attackEffectPoolTag: EnemyAttackMelee
 --- !u!114 &5504549638985945778
 MonoBehaviour:
   m_ObjectHideFlags: 0

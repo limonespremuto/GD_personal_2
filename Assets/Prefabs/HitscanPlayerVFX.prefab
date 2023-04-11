@@ -4881,7 +4881,7 @@ GameObject:
   - component: {fileID: 8613792696151976647}
   - component: {fileID: 4586286723678761469}
   m_Layer: 0
-  m_Name: ProjectileLine
+  m_Name: HitscanPlayerVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

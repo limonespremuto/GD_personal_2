@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyControllerScript : MonoBehaviour
+public class AIBase : MonoBehaviour
 {
     [SerializeField]
     protected Transform targetTransform;
     protected NavMeshAgent agent;
 
     [SerializeField, Tooltip("are where this enemy can hear the player, currently it just need to be whitin")]
-    protected float agroRange;
+    protected float agroRange = 3f;
+    [SerializeField]
+    protected float stopDistance = 1f;
     protected float distanceToTarget;
 
     [SerializeField]
-    protected LayerMask whatIsWorld;
+    protected LayerMask worldLayer;
     [SerializeField]
     protected LayerMask entityLayer;
 
@@ -24,6 +26,7 @@ public class EnemyControllerScript : MonoBehaviour
         agent = transform.GetComponent<NavMeshAgent>();
         //agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.stoppingDistance = stopDistance;
     }
 
     // Update is called once per frame

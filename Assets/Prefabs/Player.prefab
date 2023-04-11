@@ -189,7 +189,7 @@ MonoBehaviour:
   geometryLayer:
     serializedVersion: 2
     m_Bits: 385
-  poolTag: A
+  poolTag: a
 --- !u!1 &5698796105020537705
 GameObject:
   m_ObjectHideFlags: 0

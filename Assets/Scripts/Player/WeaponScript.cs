@@ -47,19 +47,7 @@ public class WeaponScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GOPoolScript.instance.poolDictionary.ContainsKey(poolTag))
-        {
-            projectilePool = GOPoolScript.instance.poolDictionary[poolTag];
-            ProjectileScript pS = projectilePool.Dequeue().GetComponent<ProjectileScript>();
-            if (pS == null)
-            {
-                Debug.LogWarning("there is no projectileScript inside this gameobject");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("no prefab exist with the tag " + tag);
-        }
+        GetPool();
     }
 
     private void UpdateLaserPointer()
@@ -89,6 +77,23 @@ public class WeaponScript : MonoBehaviour
         }
     }
 
+    private void GetPool()
+    {
+        if (GOPoolScript.instance.poolDictionary.ContainsKey(poolTag))
+        {
+            projectilePool = GOPoolScript.instance.poolDictionary[poolTag];
+            HitScanLineShootVFX VFX = projectilePool.Dequeue().GetComponent<HitScanLineShootVFX>();
+            if (VFX == null)
+            {
+                Debug.LogWarning("there is no projectileScript inside this gameobject");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("no prefab exist with the tag " + poolTag);
+        }
+    }
+
     public void Shoot(bool isEnemyFiring)
     {
         RaycastHit2D hit;
@@ -100,7 +105,7 @@ public class WeaponScript : MonoBehaviour
         projectileGO.transform.position = gunMuzzle.transform.position;
         projectileGO.transform.rotation = gunMuzzle.transform.rotation;
             
-        ProjectileScript pS = projectileGO.GetComponent<ProjectileScript>();
+        HitScanLineShootVFX pS = projectileGO.GetComponent<HitScanLineShootVFX>();
         if (pS == null)
         {
             Debug.LogWarning("there is no projectileScript inside this gameobject");
@@ -126,4 +131,5 @@ public class WeaponScript : MonoBehaviour
         }
 
     }
+
 }
