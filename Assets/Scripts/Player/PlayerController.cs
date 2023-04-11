@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IHealth
 {
+    public static PlayerController instance;
     [SerializeField]
     private ScritableObjectHealth cStats;
     [HideInInspector]
@@ -41,19 +42,37 @@ public class PlayerController : MonoBehaviour, IHealth
     [SerializeField, Tooltip("how much zoom for each level, expressed in half width of the camera")]
     float[] zoomLevels;
 
+    public PlayerStatus playerStatus = PlayerStatus.Normal;
 
+    public enum PlayerStatus
+    {
+        Paused,
+        Normal,
+        Inventory
+    }
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.Log("there are more player instances");
+        }
+        instance = this;
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
+
         if (playerDrag <= 0f)
         {
             Debug.Log("Player drag needs to be above 0");
         }
-
         playerCamera.orthographicSize = zoomLevels[zoomLevel];
 
         maxHealt = cStats.maxHealth;
         resistance = cStats.resistance;
+        UIManager.instance.UpdateHealth(healt, maxHealt);
         if (!healtOvverride)
         {
             healt = maxHealt;
@@ -66,22 +85,57 @@ public class PlayerController : MonoBehaviour, IHealth
     // Update is called once per frame
     void Update()
     {
-        RotateTowards(Input.mousePosition);
-        Shoot();
-        if (Input.GetKeyDown(KeyCode.Tab))
+        switch (playerStatus)
         {
-            zoomLevel++;
-            if (zoomLevel > zoomLevels.Length - 1)
-                zoomLevel = 0;
+            case PlayerStatus.Paused:
+                {
 
-            playerCamera.orthographicSize = zoomLevels[zoomLevel];
-            //Debug.Log(zoomLevel + " is the zoom level, and " + zoomLevels[zoomLevel] + " is the new zoom");
+                    break;
+                }
+            case PlayerStatus.Normal:
+                {
+                    if (Input.GetKeyDown(KeyCode.Tab))
+                    {
+                        zoomLevel++;
+                        if (zoomLevel > zoomLevels.Length - 1)
+                            zoomLevel = 0;
+
+                        playerCamera.orthographicSize = zoomLevels[zoomLevel];
+                        //Debug.Log(zoomLevel + " is the zoom level, and " + zoomLevels[zoomLevel] + " is the new zoom");
+                    }
+                    Shoot();
+                    RotateTowards(Input.mousePosition);
+                    break;
+                }
+            case PlayerStatus.Inventory:
+                {
+
+                    break;
+                }
         }
     }
 
     private void FixedUpdate()
     {
-        Movement();
+        switch (playerStatus)
+        {
+            case PlayerStatus.Paused:
+                {
+
+                    break;
+                }
+            case PlayerStatus.Normal:
+                {
+                    Movement();
+                    break;
+                }
+            case PlayerStatus.Inventory:
+                {
+                    Movement();
+                    break;
+                }
+        }
+        
     }
 
     private void Shoot()
@@ -104,7 +158,6 @@ public class PlayerController : MonoBehaviour, IHealth
         
         //PlayerTransform.LookAt(new Vector3(aimPoint.x, aimPoint.y, PlayerTransform.position.z), Vector3.back);
         playerTransform.up = new Vector3(aimVector2.x,aimVector2.y, 0f);
-        //Debug.Log(aimVector2);
     }
 
     void Movement()
@@ -147,6 +200,37 @@ public class PlayerController : MonoBehaviour, IHealth
     public void TakeDamage(float damage)
     {
         healt -= damage * (1f - resistance);
+
+        // ui stuff
+        UIManager.instance.UpdateHealth(healt, maxHealt);
     }
 
+    /// <summary>
+    /// chages the player state
+    /// </summary>
+    /// <param name="statusType">Accept the PlayerStatus.Type</param>
+    public void SetState(PlayerStatus statusType)
+    {
+        switch (statusType)
+        {
+            case PlayerStatus.Paused:
+                {
+                    Time.timeScale = 0f;
+                    playerStatus = PlayerStatus.Paused;
+                    break;
+                }
+            case PlayerStatus.Normal:
+                {
+                    Time.timeScale = 1f;
+                    playerStatus = PlayerStatus.Normal;
+                    break;
+                }
+            case PlayerStatus.Inventory:
+                {
+                    Time.timeScale = 1f;
+                    playerStatus = PlayerStatus.Inventory;
+                    break;
+                }
+        }
+    }
 }

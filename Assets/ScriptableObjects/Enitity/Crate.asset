@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281dffc7482312044ba371eafa5b4b93, type: 3}
   m_Name: Crate
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  resistance: 0.05
+  maxHealth: 25
+  resistance: 0

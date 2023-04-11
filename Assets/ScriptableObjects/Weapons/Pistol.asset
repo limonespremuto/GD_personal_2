@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: pistol
   weaponDescription: Standard pistol found everywhere
   weaponImage: {fileID: 0}
-  damage: 5
+  damage: 25
   range: 10
   rateOfFire: 2
   recoil: 0
