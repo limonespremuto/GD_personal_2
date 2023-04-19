@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60420c80f6ccbbc4490ccb8337946f57, type: 3}
-  m_Name: Pistol
+  m_Name: Rifle
   m_EditorClassIdentifier: 
-  damage: 67
-  range: 12
-  rateOfFire: 1
+  damage: 34
+  range: 7
+  rateOfFire: 3.34
   recoil: 0
   ammoTypeName: pistol rounds
-  StartingAmmo: 24
-  clipSize: 12
-  currentClipAmmo: 12
-  reloadTime: 2
+  StartingAmmo: 50
+  clipSize: 25
+  currentClipAmmo: 25
+  reloadTime: 2.6
   audioClips:
   - {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}
   - {fileID: 8300000, guid: f19e3fdb9c8082647a2c32beca28ba84, type: 3}

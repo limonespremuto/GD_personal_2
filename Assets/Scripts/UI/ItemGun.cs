@@ -10,6 +10,7 @@ public class ItemGun : Item
     new protected void Awake()
     {
         base.Awake();
+        //textUICount.text = gunStats.currentClipAmmo.ToString();
     }
 
     new public void Equip()
@@ -17,7 +18,7 @@ public class ItemGun : Item
         WeaponScript weaponScript = PlayerController.instance.transform.GetComponentInChildren<WeaponScript>();
         weaponScript.cGunStats = gunStats;
         weaponScript.updateAmmoType(gunStats);
-
+        
         base.Equip();
     }
 }

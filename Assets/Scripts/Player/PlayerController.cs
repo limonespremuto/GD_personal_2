@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour, IHealth
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            weaponScript.Shoot(false);
+            weaponScript.Shoot();
         }
     }
 
@@ -200,9 +200,14 @@ public class PlayerController : MonoBehaviour, IHealth
     public void TakeDamage(float damage)
     {
         healt -= damage * (1f - resistance);
-
+        healt = Mathf.Clamp(healt, 0f, maxHealt);
         // ui stuff
-        UIManager.instance.UpdateHealth(healt, maxHealt);
+        UIManager.instance.UpdateHealth(Mathf.Clamp(healt, 0f, maxHealt), maxHealt);
+
+        if (healt <= 0f)
+        {
+            UIManager.instance.UpdateUIState(3);
+        }
     }
 
     /// <summary>

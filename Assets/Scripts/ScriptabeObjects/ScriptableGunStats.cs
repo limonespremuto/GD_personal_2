@@ -19,7 +19,13 @@ public class ScriptableGunStats : ScriptableObject
     [Range(0, 999)]
     public int StartingAmmo = 0;
     public int clipSize = 30;
-    
+    public int currentClipAmmo;
+
 
     public float reloadTime = 2f;
+
+
+    public AudioClip[] audioClips;
+    [Tooltip("Tag of the pooled ProjectielEffect")]
+    public string poolTag;
 }

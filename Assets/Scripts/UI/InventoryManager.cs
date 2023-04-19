@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -8,12 +9,13 @@ public class InventoryManager : MonoBehaviour
     public InventorySO inventorySO;
     [SerializeField]
     Transform InventoryUITransform;
+    [SerializeField]
+    private TextMeshProUGUI ammoTMPText;
 
     [SerializeField]
     private Ammo[] ammos;
     public Dictionary<string, int> ammoInInventory;
 
-    #region ammoClass
     [System.Serializable]
     public class Ammo
     {
@@ -21,9 +23,6 @@ public class InventoryManager : MonoBehaviour
         [Range(0,999)]
         public int StartingAmmo = 0;
     }
-
-    #endregion
-
 
     private void Awake()
     {
@@ -48,5 +47,11 @@ public class InventoryManager : MonoBehaviour
             GameObject uiItem = Instantiate(item);
             uiItem.transform.SetParent(InventoryUITransform);
         }
+        string AmmoText = "";
+        foreach (var valuePair in ammoInInventory)
+        {
+            AmmoText = AmmoText + valuePair.Key + " [" + valuePair.Value + "] ";
+        }
+        ammoTMPText.text = AmmoText;
     }
 }

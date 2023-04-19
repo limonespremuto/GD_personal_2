@@ -65,7 +65,8 @@ public class HitScanLineShootVFX : MonoBehaviour
     /// <param name="startPos"> the position where the line begins</param>
     /// <param name="hitPos"> the position where the line ends</param>
     /// <param name="hitNormal"> the normal of the hit, to rotate the hit effect</param>
-    public void InitializeProjcetileHitscan(Vector3 startPos, Vector3 hitPos, Vector3 hitNormal)
+    /// <param name="hasHit"> if the shot has hit something it will activate the end effect</param>
+    public void InitializeProjcetileHitscan(Vector3 startPos, Vector3 hitPos, Vector3 hitNormal, bool hasHit)
     {
         int NumberOflineIntersection;
         NumberOflineIntersection = Mathf.RoundToInt(Vector3.Distance(startPos,hitPos) / lineDensitiy);
@@ -88,8 +89,11 @@ public class HitScanLineShootVFX : MonoBehaviour
         }
 
         lifeTime = MaxLifeTime;
-        endEffectTransform.position = hitPos;
-        endEffectTransform.up = hitNormal;
-        endEffectTransform.gameObject.SetActive(true);
+        if (hasHit)
+        {
+            endEffectTransform.position = hitPos;
+            endEffectTransform.up = hitNormal;
+            endEffectTransform.gameObject.SetActive(true);
+        }
     }
 }

@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8564957659883313242, guid: 96254c1247b8f244486519ccafdd1ac5, type: 3}
       propertyPath: m_Name
-      value: Itemgun
+      value: ItemSMG
       objectReference: {fileID: 0}
     - target: {fileID: 9200846343331933848, guid: 96254c1247b8f244486519ccafdd1ac5, type: 3}
       propertyPath: m_Pivot.x
@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GOReference: {fileID: 0}
-  itemName: Pistol
-  description: its a simple pistol, shoots slowly and steadly
+  itemName: SMG
+  description: simple SMG rifle, high rate of fire.
   itemCount: 1
   textUIName: {fileID: 1404431041820873151}
   textUIDescritpion: {fileID: 0}
@@ -183,7 +183,7 @@ MonoBehaviour:
   imageUIDispay: {fileID: 5683904335732355881}
   image: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   itemType: 1
-  gunStats: {fileID: 11400000, guid: a0a45ff7541740c4cb0919f28ccfb6ef, type: 2}
+  gunStats: {fileID: 11400000, guid: 289b2a511a1bb0847a026eafabf8f058, type: 2}
 --- !u!114 &5683904335732355881 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2287933516537746019, guid: 96254c1247b8f244486519ccafdd1ac5, type: 3}

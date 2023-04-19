@@ -10,7 +10,7 @@ public class WeaponScript : MonoBehaviour
 
     float recoveryTime;
     bool isReloading = false;
-    int currentClipAmmo;
+
 
     private InventoryManager inventoryManager;
 
@@ -27,9 +27,6 @@ public class WeaponScript : MonoBehaviour
     Queue<GameObject> projectilePool;
     [SerializeField]
     AudioSource gunAiudioSource;
-    [SerializeField]
-    AudioClip[] audioClips;
-
 
     //[SerializeField]
     //WeaponType weaponType = WeaponType.Enemy;
@@ -38,14 +35,6 @@ public class WeaponScript : MonoBehaviour
     LayerMask allLayer;
     [SerializeField]
     LayerMask geometryLayer;
-    [SerializeField, Tooltip("Tag of the pooled object")]
-    string poolTag;
-
-    enum WeaponType
-    {
-        Player,
-        Enemy
-    }
     
     // Start is called before the first frame update
     void Start()
@@ -55,18 +44,17 @@ public class WeaponScript : MonoBehaviour
         updateAmmoType(cGunStats);
     }
 
-   
-
     // Update is called once per frame
     void Update()
     {
         if (!isReloading)
         {
-            UIManager.instance.UpdateAmmo(currentClipAmmo, 
+            UIManager.instance.UpdateAmmo(cGunStats.currentClipAmmo, 
                 cGunStats.clipSize, 
                 inventoryManager.ammoInInventory[cGunStats.ammoTypeName]);
         }
-        if (isReloading && recoveryTime <= 0f)
+
+        if (recoveryTime <= 0f)
         {
             isReloading = false;
         }
@@ -76,12 +64,13 @@ public class WeaponScript : MonoBehaviour
             UpdateLaserPointer();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && currentClipAmmo != cGunStats.clipSize)
+        if (Input.GetKeyDown(KeyCode.R) && cGunStats.currentClipAmmo != cGunStats.clipSize)
         {
             Reload();
         }
         recoveryTime -= Time.deltaTime;
     }
+
     private void UpdateLaserPointer()
     {
         RaycastHit2D hit;
@@ -102,9 +91,9 @@ public class WeaponScript : MonoBehaviour
 
     private void GetPool()
     {
-        if (GOPoolScript.instance.poolDictionary.ContainsKey(poolTag))
+        if (GOPoolScript.instance.poolDictionary.ContainsKey(cGunStats.poolTag))
         {
-            projectilePool = GOPoolScript.instance.poolDictionary[poolTag];
+            projectilePool = GOPoolScript.instance.poolDictionary[cGunStats.poolTag];
             HitScanLineShootVFX VFX = projectilePool.Dequeue().GetComponent<HitScanLineShootVFX>();
             if (VFX == null)
             {
@@ -113,7 +102,7 @@ public class WeaponScript : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("no prefab exist with the tag " + poolTag);
+            Debug.LogWarning("no prefab exist with the tag " + cGunStats.poolTag);
         }
     }
 
@@ -125,41 +114,41 @@ public class WeaponScript : MonoBehaviour
             return;
         }
         
-        int ammoDifference = cGunStats.clipSize - currentClipAmmo;
+        int ammoDifference = cGunStats.clipSize - cGunStats.currentClipAmmo;
         if (inventoryManager.ammoInInventory[cGunStats.ammoTypeName] >= ammoDifference)
         {
-            currentClipAmmo = cGunStats.clipSize;
+            cGunStats.currentClipAmmo = cGunStats.clipSize;
             inventoryManager.ammoInInventory[cGunStats.ammoTypeName] -= ammoDifference;
         }
         else
         {
-            currentClipAmmo += inventoryManager.ammoInInventory[cGunStats.ammoTypeName];
+            cGunStats.currentClipAmmo += inventoryManager.ammoInInventory[cGunStats.ammoTypeName];
             inventoryManager.ammoInInventory[cGunStats.ammoTypeName] = 0;
         }
         isReloading = true;
         recoveryTime = cGunStats.reloadTime;
     }
 
-    public void Shoot(bool isEnemyFiring)
+    public void Shoot()
     {
         RaycastHit2D hit;
 
-        if (currentClipAmmo == 0)
+        if (cGunStats.currentClipAmmo == 0)
         {
-            UIManager.instance.UpdateAmmo(currentClipAmmo,
+            UIManager.instance.UpdateAmmo(cGunStats.currentClipAmmo,
                 cGunStats.clipSize,
                 inventoryManager.ammoInInventory[cGunStats.ammoTypeName]);
 
             Reload();
         }
 
-        if (currentClipAmmo > 0 && recoveryTime <= 0f)
+        if (cGunStats.currentClipAmmo > 0 && recoveryTime <= 0f)
         {
-            currentClipAmmo--;
+            cGunStats.currentClipAmmo--;
             recoveryTime = 1f / cGunStats.rateOfFire; 
             
 
-            gunAiudioSource.PlayOneShot(audioClips[UnityEngine.Random.Range(0, audioClips.Length)]);
+            gunAiudioSource.PlayOneShot(cGunStats.audioClips[UnityEngine.Random.Range(0, cGunStats.audioClips.Length)]);
             //take from pool and enable it
             GameObject projectileGO = projectilePool.Dequeue();
             projectilePool.Enqueue(projectileGO);
@@ -177,7 +166,7 @@ public class WeaponScript : MonoBehaviour
             {
                 //Debug.Log("pew");
 
-                pS.InitializeProjcetileHitscan(gunMuzzle.position, hit.point, hit.normal);
+                pS.InitializeProjcetileHitscan(gunMuzzle.position, hit.point, hit.normal, true);
 
                 //deal damage if it can receive it
                 IHealth ihealt = hit.transform.GetComponent<IHealth>();
@@ -188,7 +177,7 @@ public class WeaponScript : MonoBehaviour
             }
             else
             {
-                pS.InitializeProjcetileHitscan(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward);
+                pS.InitializeProjcetileHitscan(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward, false);
             }
         }
 

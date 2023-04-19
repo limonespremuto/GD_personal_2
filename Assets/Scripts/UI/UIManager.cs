@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,9 +18,11 @@ public class UIManager : MonoBehaviour
     public UIState uIState = UIState.Playng;
     
     [SerializeField]
-    private Transform PauseMenu;
+    private Transform PauseMenuScreen;
     [SerializeField]
-    private Transform options;
+    private Transform optionsScreen;
+    [SerializeField]
+    private Transform deathScreen;
     [SerializeField]
     private Transform HUD;
     [SerializeField]
@@ -32,6 +34,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Transform inventory;
+    [SerializeField]
+    string sceneName;
+    [SerializeField]
+    string mainMenuSceneName = "MainMenu";
 
     public enum UIState
     {
@@ -111,43 +117,49 @@ public class UIManager : MonoBehaviour
             case 0: // playng
                 playerController.SetState(PlayerController.PlayerStatus.Normal);
                 uIState = UIState.Playng;
-                PauseMenu.gameObject.SetActive(false);
-                options.gameObject.SetActive(false);
+                PauseMenuScreen.gameObject.SetActive(false);
+                optionsScreen.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(false);
                 HUD.gameObject.SetActive(true);
+                Time.timeScale = 1f;
                 break;
             case 1: // paused
                 playerController.SetState(PlayerController.PlayerStatus.Paused);
                 uIState = UIState.paused;
-                PauseMenu.gameObject.SetActive(true);
-                options.gameObject.SetActive(false);
+                PauseMenuScreen.gameObject.SetActive(true);
+                optionsScreen.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(false);
                 HUD.gameObject.SetActive(false);
+                Time.timeScale = 0;
                 break;
             case 2: // inventory
                 playerController.SetState(PlayerController.PlayerStatus.Inventory);
                 uIState = UIState.inventory;
-                PauseMenu.gameObject.SetActive(false);
-                options.gameObject.SetActive(false);
+                PauseMenuScreen.gameObject.SetActive(false);
+                optionsScreen.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(true);
                 HUD.gameObject.SetActive(false);
                 inventoryManager.UpdateDisplayedItems();
+                Time.timeScale = 0;
                 break;
             case 3: // defeat
                 playerController.SetState(PlayerController.PlayerStatus.Paused);
                 uIState = UIState.defeat;
-                PauseMenu.gameObject.SetActive(false);
-                options.gameObject.SetActive(false);
+                PauseMenuScreen.gameObject.SetActive(false);
+                optionsScreen.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(false);
                 HUD.gameObject.SetActive(false);
+                deathScreen.gameObject.SetActive(true);
+                Time.timeScale = 0.05f;
                 break;
             case 4: // disabled
                 playerController.SetState(PlayerController.PlayerStatus.Normal);
                 uIState = UIState.disabled;
-                PauseMenu.gameObject.SetActive(false);
-                options.gameObject.SetActive(false);
+                PauseMenuScreen.gameObject.SetActive(false);
+                optionsScreen.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(false);
                 HUD.gameObject.SetActive(false);
+                Time.timeScale = 1;
                 break;
             default:
                 Debug.Log("newstate is out of range or not set defaulting to playng");
@@ -166,5 +178,14 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmo(int magazine, int clipSize ,int reserve)
     {
         ammoCounter.text = "Ammo " + reserve + " [" + magazine + " / " + clipSize + "]";
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+    public void LoadMenuScene()
+    {
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 }
