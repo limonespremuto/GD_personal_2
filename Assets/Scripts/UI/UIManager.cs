@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     [HideInInspector]
     public PlayerController playerController;
+    [SerializeField]
+    private InventoryManager inventoryManager;
 
     public UIState uIState = UIState.Playng;
     
@@ -128,6 +131,7 @@ public class UIManager : MonoBehaviour
                 options.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(true);
                 HUD.gameObject.SetActive(false);
+                inventoryManager.UpdateDisplayedItems();
                 break;
             case 3: // defeat
                 playerController.SetState(PlayerController.PlayerStatus.Paused);
@@ -159,8 +163,8 @@ public class UIManager : MonoBehaviour
         healtBarText.text = "Health " + current + " / " + max;
     }
 
-    public void UpdateAmmo()
+    public void UpdateAmmo(int magazine, int clipSize ,int reserve)
     {
-        ammoCounter.text = "Ammo " + 15 + " / " + 300;
+        ammoCounter.text = "Ammo " + reserve + " [" + magazine + " / " + clipSize + "]";
     }
 }

@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour, IHealth
 
     private void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             weaponScript.Shoot(false);
         }

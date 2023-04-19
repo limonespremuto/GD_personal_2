@@ -6,10 +6,13 @@ using UnityEngine;
 public class WeaponScript : MonoBehaviour
 {
     [SerializeField]
-    ScriptableGunStats cGunStats; 
+    public ScriptableGunStats cGunStats; 
 
-    float revoceryTime;
-    float currentClipAmmo;
+    float recoveryTime;
+    bool isReloading = false;
+    int currentClipAmmo;
+
+    private InventoryManager inventoryManager;
 
     [SerializeField]
     Transform gunHolder;
@@ -48,8 +51,37 @@ public class WeaponScript : MonoBehaviour
     void Start()
     {
         GetPool();
+        inventoryManager = InventoryManager.instace;
+        updateAmmoType(cGunStats);
     }
 
+   
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!isReloading)
+        {
+            UIManager.instance.UpdateAmmo(currentClipAmmo, 
+                cGunStats.clipSize, 
+                inventoryManager.ammoInInventory[cGunStats.ammoTypeName]);
+        }
+        if (isReloading && recoveryTime <= 0f)
+        {
+            isReloading = false;
+        }
+
+        if (IsLaserActive == true)
+        {
+            UpdateLaserPointer();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && currentClipAmmo != cGunStats.clipSize)
+        {
+            Reload();
+        }
+        recoveryTime -= Time.deltaTime;
+    }
     private void UpdateLaserPointer()
     {
         RaycastHit2D hit;
@@ -65,15 +97,6 @@ public class WeaponScript : MonoBehaviour
         {
             laserPointer.SetPosition(0, gunMuzzle.position);
             laserPointer.SetPosition(1, gunMuzzle.position + gunMuzzle.up * cGunStats.range);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (IsLaserActive == true)
-        {
-            UpdateLaserPointer();
         }
     }
 
@@ -94,40 +117,90 @@ public class WeaponScript : MonoBehaviour
         }
     }
 
+    private void Reload()
+    {
+
+        if (inventoryManager.ammoInInventory[cGunStats.ammoTypeName] <= 0)
+        {
+            return;
+        }
+        
+        int ammoDifference = cGunStats.clipSize - currentClipAmmo;
+        if (inventoryManager.ammoInInventory[cGunStats.ammoTypeName] >= ammoDifference)
+        {
+            currentClipAmmo = cGunStats.clipSize;
+            inventoryManager.ammoInInventory[cGunStats.ammoTypeName] -= ammoDifference;
+        }
+        else
+        {
+            currentClipAmmo += inventoryManager.ammoInInventory[cGunStats.ammoTypeName];
+            inventoryManager.ammoInInventory[cGunStats.ammoTypeName] = 0;
+        }
+        isReloading = true;
+        recoveryTime = cGunStats.reloadTime;
+    }
+
     public void Shoot(bool isEnemyFiring)
     {
         RaycastHit2D hit;
 
-        gunAiudioSource.PlayOneShot(audioClips[UnityEngine.Random.Range(0, audioClips.Length)]);
-        //take from pool and enable it
-        GameObject projectileGO = projectilePool.Dequeue();
-        projectilePool.Enqueue(projectileGO);
-        projectileGO.transform.position = gunMuzzle.transform.position;
-        projectileGO.transform.rotation = gunMuzzle.transform.rotation;
-            
-        HitScanLineShootVFX pS = projectileGO.GetComponent<HitScanLineShootVFX>();
-        if (pS == null)
+        if (currentClipAmmo == 0)
         {
-            Debug.LogWarning("there is no projectileScript inside this gameobject");
+            UIManager.instance.UpdateAmmo(currentClipAmmo,
+                cGunStats.clipSize,
+                inventoryManager.ammoInInventory[cGunStats.ammoTypeName]);
+
+            Reload();
         }
-        projectileGO.SetActive(true);
-        
-        if (hit = Physics2D.Raycast(gunMuzzle.position, gunMuzzle.up, cGunStats.range, allLayer))
+
+        if (currentClipAmmo > 0 && recoveryTime <= 0f)
         {
-            //Debug.Log("pew");
+            currentClipAmmo--;
+            recoveryTime = 1f / cGunStats.rateOfFire; 
+            
 
-            pS.InitializeProjcetileHitscan(gunMuzzle.position, hit.point, hit.normal);
-
-            //deal damage if it can receive it
-            IHealth ihealt = hit.transform.GetComponent<IHealth>();
-            if (ihealt != null)
+            gunAiudioSource.PlayOneShot(audioClips[UnityEngine.Random.Range(0, audioClips.Length)]);
+            //take from pool and enable it
+            GameObject projectileGO = projectilePool.Dequeue();
+            projectilePool.Enqueue(projectileGO);
+            projectileGO.transform.position = gunMuzzle.transform.position;
+            projectileGO.transform.rotation = gunMuzzle.transform.rotation;
+            
+            HitScanLineShootVFX pS = projectileGO.GetComponent<HitScanLineShootVFX>();
+            if (pS == null)
             {
-                ihealt.TakeDamage(cGunStats.damage);
+                Debug.LogWarning("there is no projectileScript inside this gameobject");
+            }
+            projectileGO.SetActive(true);
+        
+            if (hit = Physics2D.Raycast(gunMuzzle.position, gunMuzzle.up, cGunStats.range, allLayer))
+            {
+                //Debug.Log("pew");
+
+                pS.InitializeProjcetileHitscan(gunMuzzle.position, hit.point, hit.normal);
+
+                //deal damage if it can receive it
+                IHealth ihealt = hit.transform.GetComponent<IHealth>();
+                if (ihealt != null)
+                {
+                    ihealt.TakeDamage(cGunStats.damage);
+                }
+            }
+            else
+            {
+                pS.InitializeProjcetileHitscan(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward);
             }
         }
-        else
+
+        
+
+    }
+
+    public void updateAmmoType(ScriptableGunStats scriptableGun)
+    {
+        if (!inventoryManager.ammoInInventory.ContainsKey(scriptableGun.ammoTypeName))
         {
-            pS.InitializeProjcetileHitscan(gunMuzzle.transform.position, gunMuzzle.position + gunMuzzle.up * cGunStats.range,-gunMuzzle.forward);
+            inventoryManager.ammoInInventory.Add(scriptableGun.ammoTypeName, scriptableGun.StartingAmmo);
         }
 
     }
