@@ -11,41 +11,41 @@ public class InventoryManager : MonoBehaviour
     Transform InventoryUITransform;
     [SerializeField]
     private TextMeshProUGUI ammoTMPText;
-
-    [SerializeField]
-    private Ammo[] ammos;
     public Dictionary<string, int> ammoInInventory;
 
-    [System.Serializable]
-    public class Ammo
-    {
-        public string ammoTypeName = "default";
-        [Range(0,999)]
-        public int StartingAmmo = 0;
-    }
 
     private void Awake()
     {
         instace = this;
         ammoInInventory = new Dictionary<string, int>();
-        foreach (Ammo ammo in ammos)
+        //ammoInInventory = new Dictionary<string, int>();
+        foreach (InventorySO.Ammo ammo in inventorySO.ammos)
         {
-            ammoInInventory.Add(ammo.ammoTypeName, ammo.StartingAmmo);
+            ammoInInventory.Add(ammo.GetAmmoName(), ammo.StartingAmmo);
             //Debug.Log(ammoInInventory.Count);
         }
     }
 
     public void UpdateDisplayedItems()
     {
+        int itemID = 0;
+
         for (int i = 0; i < InventoryUITransform.transform.childCount; i++)
         {
             Destroy(InventoryUITransform.transform.GetChild(i).gameObject);
         }
 
+
+
         foreach (GameObject item in inventorySO.Items)
         {
             GameObject uiItem = Instantiate(item);
             uiItem.transform.SetParent(InventoryUITransform);
+
+
+            Item itemSc= uiItem.GetComponent<Item>();
+            itemSc.itemID = itemID;
+            itemID++;
         }
         string AmmoText = "";
         foreach (var valuePair in ammoInInventory)
@@ -53,5 +53,12 @@ public class InventoryManager : MonoBehaviour
             AmmoText = AmmoText + valuePair.Key + " [" + valuePair.Value + "] ";
         }
         ammoTMPText.text = AmmoText;
+    }
+
+    public void removeItemByID(int ID)
+    {
+        inventorySO.Items.RemoveAt(ID);
+        UpdateDisplayedItems();
+        
     }
 }

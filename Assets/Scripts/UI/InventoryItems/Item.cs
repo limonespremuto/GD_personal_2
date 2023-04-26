@@ -21,17 +21,8 @@ public class Item : MonoBehaviour
     public Image imageUIDispay;
     public Sprite image;
 
-    public EItemType itemType = EItemType.none;
-
-    
-
-
-    public enum EItemType
-    {
-        none,
-        weapon,
-        healingitem
-    }
+    //[HideInInspector]
+    public int itemID;
 
     protected void Awake()
     {
@@ -43,22 +34,6 @@ public class Item : MonoBehaviour
 
     public void Equip()
     {
-        switch (itemType)
-        {
-            case EItemType.none:
-                {
-                    break;
-                }
-            case EItemType.weapon:
-                {
-                    
 
-                    break;
-                }
-            case EItemType.healingitem:
-                {
-                    break;
-                }
-        }
     }
 }

@@ -23,6 +23,7 @@ public class AiMelee : AIBase
     new void Start()
     {
         base.Start();
+        agent.stoppingDistance = stopDistance;
         attackEffectPool = GOPoolScript.instance.poolDictionary[attackEffectPoolTag];
     }
 

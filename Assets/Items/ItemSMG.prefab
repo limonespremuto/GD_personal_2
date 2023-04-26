@@ -31,6 +31,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ItemGun, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 2287933516537746019, guid: 96254c1247b8f244486519ccafdd1ac5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1855453925, guid: 89ab54a21cc3ed741b14141e128fc2ad, type: 3}
     - target: {fileID: 3852376128937231073, guid: 96254c1247b8f244486519ccafdd1ac5, type: 3}
       propertyPath: itemName
       value: Gun
@@ -181,8 +185,9 @@ MonoBehaviour:
   textUIDescritpion: {fileID: 0}
   textUICount: {fileID: 1923749490780309220}
   imageUIDispay: {fileID: 5683904335732355881}
-  image: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  image: {fileID: -1855453925, guid: 89ab54a21cc3ed741b14141e128fc2ad, type: 3}
   itemType: 1
+  itemID: 0
   gunStats: {fileID: 11400000, guid: 289b2a511a1bb0847a026eafabf8f058, type: 2}
 --- !u!114 &5683904335732355881 stripped
 MonoBehaviour:

@@ -50,8 +50,8 @@ public class WeaponScript : MonoBehaviour
         if (!isReloading)
         {
             UIManager.instance.UpdateAmmo(cGunStats.currentClipAmmo, 
-                cGunStats.clipSize, 
-                inventoryManager.ammoInInventory[cGunStats.ammoTypeName]);
+            cGunStats.clipSize, 
+            inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()]);
         }
 
         if (recoveryTime <= 0f)
@@ -109,21 +109,21 @@ public class WeaponScript : MonoBehaviour
     private void Reload()
     {
 
-        if (inventoryManager.ammoInInventory[cGunStats.ammoTypeName] <= 0)
+        if (inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()] <= 0)
         {
             return;
         }
         
         int ammoDifference = cGunStats.clipSize - cGunStats.currentClipAmmo;
-        if (inventoryManager.ammoInInventory[cGunStats.ammoTypeName] >= ammoDifference)
+        if (inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()] >= ammoDifference)
         {
             cGunStats.currentClipAmmo = cGunStats.clipSize;
-            inventoryManager.ammoInInventory[cGunStats.ammoTypeName] -= ammoDifference;
+            inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()] -= ammoDifference;
         }
         else
         {
-            cGunStats.currentClipAmmo += inventoryManager.ammoInInventory[cGunStats.ammoTypeName];
-            inventoryManager.ammoInInventory[cGunStats.ammoTypeName] = 0;
+            cGunStats.currentClipAmmo += inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()];
+            inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()] = 0;
         }
         isReloading = true;
         recoveryTime = cGunStats.reloadTime;
@@ -137,7 +137,7 @@ public class WeaponScript : MonoBehaviour
         {
             UIManager.instance.UpdateAmmo(cGunStats.currentClipAmmo,
                 cGunStats.clipSize,
-                inventoryManager.ammoInInventory[cGunStats.ammoTypeName]);
+                inventoryManager.ammoInInventory[cGunStats.ammo.GetAmmoName()]);
 
             Reload();
         }
@@ -187,9 +187,9 @@ public class WeaponScript : MonoBehaviour
 
     public void updateAmmoType(ScriptableGunStats scriptableGun)
     {
-        if (!inventoryManager.ammoInInventory.ContainsKey(scriptableGun.ammoTypeName))
+        if (!inventoryManager.ammoInInventory.ContainsKey(scriptableGun.ammo.GetAmmoName()))
         {
-            inventoryManager.ammoInInventory.Add(scriptableGun.ammoTypeName, scriptableGun.StartingAmmo);
+            inventoryManager.ammoInInventory.Add(scriptableGun.ammo.GetAmmoName(), scriptableGun.ammo.StartingAmmo); ;
         }
 
     }

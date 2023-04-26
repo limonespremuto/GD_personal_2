@@ -56,6 +56,7 @@ MonoBehaviour:
   targetTransform: {fileID: 0}
   agroRange: 8
   stopDistance: 1
+  speed: 4.5
   worldLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -81,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cHealthStats: {fileID: 11400000, guid: 8b26bfab3b48ae945a1cb9c4dafadddd, type: 2}
   currentHealth: 0
+  ItemsDroppedOnDeath: []
 --- !u!50 &5498212884284574966
 Rigidbody2D:
   serializedVersion: 4

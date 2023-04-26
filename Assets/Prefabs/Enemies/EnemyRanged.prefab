@@ -139,6 +139,7 @@ MonoBehaviour:
   targetTransform: {fileID: 0}
   agroRange: 8
   stopDistance: 4
+  speed: 2.5
   worldLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -146,9 +147,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   attackDamage: 25
-  projectileRange: 12
-  projectileSpeed: 8
+  projectileRange: 16
+  projectileSpeed: 12
   attackRecoveryTime: 0.5
+  attackRange: 8
   attackOfset: 0.5
   attackPrefabPoolTag: EnemyAttackRanged
 --- !u!114 &1199601971872224601
@@ -165,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cHealthStats: {fileID: 11400000, guid: 8b26bfab3b48ae945a1cb9c4dafadddd, type: 2}
   currentHealth: 0
+  ItemsDroppedOnDeath: []
 --- !u!50 &1192418593183910685
 Rigidbody2D:
   serializedVersion: 4

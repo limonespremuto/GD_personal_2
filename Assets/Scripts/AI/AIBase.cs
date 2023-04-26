@@ -14,6 +14,8 @@ public class AIBase : MonoBehaviour
     [SerializeField]
     protected float stopDistance = 1f;
     protected float distanceToTarget;
+    [SerializeField]
+    protected float speed = 2f;
 
     [SerializeField]
     protected LayerMask worldLayer;
@@ -26,14 +28,15 @@ public class AIBase : MonoBehaviour
         agent = transform.GetComponent<NavMeshAgent>();
         //agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.stoppingDistance = stopDistance;
+        agent.speed = speed;
+
     }
 
     // Update is called once per frame
     protected void Update()
     {
         distanceToTarget = Vector2.Distance(transform.position, targetTransform.position);
-        if (distanceToTarget <= agroRange)
+        if (distanceToTarget <= agroRange && agent.isActiveAndEnabled)
             agent.SetDestination(targetTransform.position);
         
     }

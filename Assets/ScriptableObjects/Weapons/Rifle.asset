@@ -16,10 +16,10 @@ MonoBehaviour:
   range: 7
   rateOfFire: 3.34
   recoil: 0
-  ammoTypeName: pistol rounds
-  StartingAmmo: 50
+  ammoTypeName: rifle rounds
+  StartingAmmo: 25
   clipSize: 25
-  currentClipAmmo: 25
+  currentClipAmmo: 0
   reloadTime: 2.6
   audioClips:
   - {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}

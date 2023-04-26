@@ -15,11 +15,12 @@ public class ScriptableGunStats : ScriptableObject
     public float recoil = 0f;
 
     //public InventoryManager.Ammo ammoType;
-    public string ammoTypeName = "default";
-    [Range(0, 999)]
-    public int StartingAmmo = 0;
+    //public string ammoTypeName = "default";
+    //[Range(0, 999)]
+    //public int StartingAmmo = 0;
     public int clipSize = 30;
-    public int currentClipAmmo;
+    public int currentClipAmmo = 0;
+    public InventorySO.Ammo ammo;
 
 
     public float reloadTime = 2f;

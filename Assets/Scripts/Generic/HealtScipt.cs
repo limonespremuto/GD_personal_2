@@ -12,6 +12,9 @@ public class HealtScipt : MonoBehaviour, IHealth
     float maxHealth;
     float resistance;
 
+    [SerializeField]
+    private GameObject[] ItemsDroppedOnDeath;
+
     private void Start()
     {
         currentHealth = cHealthStats.maxHealth;
@@ -23,6 +26,13 @@ public class HealtScipt : MonoBehaviour, IHealth
         currentHealth -= damage * (1f - resistance);
         if (currentHealth <= 0f)
         {
+            foreach (GameObject gO in ItemsDroppedOnDeath)
+            {
+                Vector3 droppedItemPos = transform.position;
+                droppedItemPos.y += Random.Range(0f, 1f);
+                droppedItemPos.x += Random.Range(0f, 1f);
+                Instantiate(gO, droppedItemPos, Quaternion.identity);
+            }
             DisableGO();
         }
     }

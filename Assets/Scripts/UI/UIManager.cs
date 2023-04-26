@@ -177,6 +177,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmo(int magazine, int clipSize ,int reserve)
     {
+        if (ammoCounter == null)
+        {
+            Debug.Log("no ammo counter");
+            return;
+        }
         ammoCounter.text = "Ammo " + reserve + " [" + magazine + " / " + clipSize + "]";
     }
 
