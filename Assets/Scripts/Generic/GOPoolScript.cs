@@ -15,6 +15,7 @@ public class GOPoolScript : MonoBehaviour
     }
 
     public List<Pool> pools;
+
     public Dictionary<string, Queue<GameObject>> poolDictionary;
 
     private void Awake()
@@ -35,8 +36,6 @@ public class GOPoolScript : MonoBehaviour
     }
     public void CreatePool(string tag, GameObject prefab, int size)
     {
-
-        
         Queue<GameObject> objectPool = new Queue<GameObject>();
 
         for (int i = 0; i < size; i++)
@@ -52,17 +51,18 @@ public class GOPoolScript : MonoBehaviour
 
     }
 
-    public void ExtendPool(string tag, GameObject prefab, int howManyToAdd)
+    public void ExtendPools(Pool newPool)
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
-        if (poolDictionary.TryGetValue(tag, out Queue<GameObject> pool))
+        if (poolDictionary.ContainsKey(newPool.tag) == false)
         {
-            for (int i = 0; i < howManyToAdd; i++)
+            Queue<GameObject> objectPool = new Queue<GameObject>();
+            for (int i = 0; i < newPool.size ; i++)
             {
-                GameObject obj = Instantiate(prefab);
+                GameObject obj = Instantiate(newPool.prefab);
                 obj.SetActive(false);
-                pool.Enqueue(obj);
+                objectPool.Enqueue(obj);
             }
+            poolDictionary.Add(newPool.tag, objectPool);
         }
     }
 }

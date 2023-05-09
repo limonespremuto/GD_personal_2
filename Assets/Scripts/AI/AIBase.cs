@@ -36,15 +36,42 @@ public class AIBase : MonoBehaviour
     protected void Update()
     {
         distanceToTarget = Vector2.Distance(transform.position, targetTransform.position);
-        if (distanceToTarget <= agroRange && agent.isActiveAndEnabled)
-            agent.SetDestination(targetTransform.position);
-        
-    }
+        //Debug.Log(distanceToTarget);
 
+        bool hasSight = CheckSight(transform.position, worldLayer);    
+
+        if (distanceToTarget <= agroRange && agent.isActiveAndEnabled && hasSight)
+        {
+            agent.SetDestination(targetTransform.position);
+        }
+
+    }
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position,agroRange);
-        
+        Gizmos.DrawWireSphere(transform.position, agroRange);
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="target">the vector 3 is converted to a vector 2</param>
+    /// <param name="layermask">what will be taken into account when cheking for line of sight</param>
+    /// <returns></returns>
+    protected bool CheckSight(Vector3 target, LayerMask layermask)
+    {
+        Vector2 start = new Vector2(transform.position.x, transform.position.y);
+        Vector2 end = new Vector2(target.x, target.y);
+        float distance = Vector2.Distance(start, end);
+
+        RaycastHit2D CheckHit = Physics2D.Raycast(start, end, distance, layermask);
+
+        if (CheckHit == false)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
