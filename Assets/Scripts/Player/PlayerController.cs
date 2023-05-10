@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour, IHealth
 
     public PlayerStatus playerStatus = PlayerStatus.Normal;
 
+    [SerializeField]
+    private LayerMask _interactibles;
     public enum PlayerStatus
     {
         Paused,
@@ -94,7 +96,7 @@ public class PlayerController : MonoBehaviour, IHealth
                 }
             case PlayerStatus.Normal:
                 {
-                    if (Input.GetKeyDown(KeyCode.Tab))
+                    if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton6))
                     {
                         zoomLevel++;
                         if (zoomLevel > zoomLevels.Length - 1)
@@ -105,6 +107,10 @@ public class PlayerController : MonoBehaviour, IHealth
                     }
                     Shoot();
                     RotateTowards(Input.mousePosition);
+                    if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton2))
+                    {
+                        FindInteractible();
+                    }
                     break;
                 }
             case PlayerStatus.Inventory:
@@ -140,7 +146,8 @@ public class PlayerController : MonoBehaviour, IHealth
 
     private void Shoot()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        //Debug.Log(Input.GetAxisRaw("Fire1"));
+        if (Input.GetKey(KeyCode.Mouse0) || Input.GetAxisRaw("Fire1") >= 0.8)
         {
             weaponScript.Shoot();
         }
@@ -236,6 +243,20 @@ public class PlayerController : MonoBehaviour, IHealth
                     playerStatus = PlayerStatus.Inventory;
                     break;
                 }
+        }
+    }
+
+    private void FindInteractible()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, weaponScript.transform.up, 2f, _interactibles);
+        if (hit == false)
+            return;
+
+        Button button = hit.transform.GetComponent<Button>();
+        
+        if (button != null)
+        {
+            button.Interact();
         }
     }
 }

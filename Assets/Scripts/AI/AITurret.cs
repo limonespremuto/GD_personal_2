@@ -41,6 +41,7 @@ public class AITurret : MonoBehaviour
 
     private void Start()
     {
+        targetTransform = PlayerController.instance.transform;
         GOPoolScript.instance.ExtendPools(_shootGOPool);
         _attackPrefabPool = GOPoolScript.instance.poolDictionary[_shootGOPool.tag];
     }
@@ -51,6 +52,7 @@ public class AITurret : MonoBehaviour
         float distance = Vector2.Distance(transform.position, targetTransform.position);
         bool hasSight = CheckSight(targetTransform.position, worldLayer);
         bool isInAngle = CheckAngle(transform.position, transform.up, targetTransform.position, _detectionAngle);
+        //Debug.Log(distance + " " + hasSight + " " + isInAngle);
         if (hasSight && isInAngle && distance <= _detectionDistance)
         {
             RotateTurretTowards(targetTransform.position);
@@ -120,14 +122,15 @@ public class AITurret : MonoBehaviour
     {
         Vector2 start = new Vector2(transform.position.x, transform.position.y);
         Vector2 end = new Vector2(target.x, target.y);
-        float distance = Vector2.Distance(start, end);
-
-        RaycastHit2D CheckHit = Physics2D.Raycast(start, end, distance, layermask);
-
+        float thisDistance = Vector2.Distance(start, end);
+        end = new Vector2(target.x - start.x, target.y - start.y);
+        RaycastHit2D CheckHit = Physics2D.Raycast(start, end, thisDistance, layermask);
         if (CheckHit == false)
         {
+            //Debug.DrawLine(start, end, Color.green);
             return true;
         }
+        Debug.Log(CheckHit.transform.name);
 
         return false;
     }
@@ -138,5 +141,11 @@ public class AITurret : MonoBehaviour
         Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, relativeTargetPos);
 
         _gunTranform.rotation = Quaternion.RotateTowards(_gunTranform.rotation, toRotation, _rotationSpeed * Time.deltaTime);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _detectionDistance);
     }
 }

@@ -180,16 +180,12 @@ MonoBehaviour:
   laserPointer: {fileID: 5698796105380666453}
   IsLaserActive: 1
   gunAiudioSource: {fileID: 6443820207345563076}
-  audioClips:
-  - {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}
-  - {fileID: 8300000, guid: f19e3fdb9c8082647a2c32beca28ba84, type: 3}
   allLayer:
     serializedVersion: 2
     m_Bits: 1921
   geometryLayer:
     serializedVersion: 2
     m_Bits: 385
-  poolTag: a
 --- !u!1 &5698796105020537705
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +251,11 @@ MonoBehaviour:
   - 3
   - 5
   - 7
-  - 20
+  - 10
+  playerStatus: 1
+  _interactibles:
+    serializedVersion: 2
+    m_Bits: 8320
 --- !u!50 &5698796105020537717
 Rigidbody2D:
   serializedVersion: 4

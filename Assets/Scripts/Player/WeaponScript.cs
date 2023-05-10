@@ -64,7 +64,7 @@ public class WeaponScript : MonoBehaviour
             UpdateLaserPointer();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && cGunStats.currentClipAmmo != cGunStats.clipSize)
+        if ((Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton2)) && cGunStats.currentClipAmmo != cGunStats.clipSize)
         {
             Reload();
         }
