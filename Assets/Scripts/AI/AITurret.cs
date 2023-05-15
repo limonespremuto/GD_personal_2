@@ -130,7 +130,7 @@ public class AITurret : MonoBehaviour
             //Debug.DrawLine(start, end, Color.green);
             return true;
         }
-        Debug.Log(CheckHit.transform.name);
+        //Debug.Log(CheckHit.transform.name);
 
         return false;
     }
