@@ -33,48 +33,52 @@ public class AIRanged : AIBase
     new void Update()
     {
         base.Update();
-        RaycastHit2D CheckHit = Physics2D.Raycast(transform.position, targetTransform.position, distanceToTarget, worldLayer);
-        if (attackCooldown <= 0)
+        if (targetTransform != null)
         {
-            if (distanceToTarget <= attackRange)
+            RaycastHit2D CheckHit = Physics2D.Raycast(transform.position, targetTransform.position, distanceToTarget, worldLayer);
+            if (attackCooldown <= 0)
             {
-                
-                if (CheckHit.collider == null)
+                if (distanceToTarget <= attackRange)
                 {
-                    GameObject attackPrefab = attackPrefabPool.Dequeue();
-                    attackPrefab.transform.position = transform.position + (transform.up * attackOfset);
-                    attackPrefab.SetActive(true);
-                    attackPrefab.transform.rotation = transform.rotation;
-
-                    ProjectileScript pS = attackPrefab.GetComponent<ProjectileScript>();
-                    if (pS != null)
+                
+                    if (CheckHit.collider == null)
                     {
-                        pS.damage = attackDamage;
-                        pS.speed = projectileSpeed;
-                        pS.activeTime = projectileRange / projectileSpeed;
-                        //pS.layerCheck = entityLayer | worldLayer;
+                        GameObject attackPrefab = attackPrefabPool.Dequeue();
+                        attackPrefab.transform.position = transform.position + (transform.up * attackOfset);
+                        attackPrefab.SetActive(true);
+                        attackPrefab.transform.rotation = transform.rotation;
 
+                        ProjectileScript pS = attackPrefab.GetComponent<ProjectileScript>();
+                        if (pS != null)
+                        {
+                            pS.damage = attackDamage;
+                            pS.speed = projectileSpeed;
+                            pS.activeTime = projectileRange / projectileSpeed;
+                            //pS.layerCheck = entityLayer | worldLayer;
+
+                        }
+                        else
+                        {
+                            Debug.LogWarning(attackPrefabPoolTag + " does not contain a ProjectileScript script");
+                        }
+                        attackPrefabPool.Enqueue(attackPrefab);
+                        attackCooldown = attackRecoveryTime;
                     }
-                    else
-                    {
-                        Debug.LogWarning(attackPrefabPoolTag + " does not contain a ProjectileScript script");
-                    }
-                    attackPrefabPool.Enqueue(attackPrefab);
-                    attackCooldown = attackRecoveryTime;
                 }
+
             }
+            if (distanceToTarget <= stopDistance && CheckHit.collider == null)
+            {
+                transform.up = new Vector3(targetTransform.position.x - transform.position.x, targetTransform.position.y - transform.position.y, 0f);
+
+                agent.enabled = false;
+            }
+            else
+            {
+                agent.enabled = true;
+            }
+            attackCooldown -= Time.deltaTime;
 
         }
-        if (distanceToTarget <= stopDistance && CheckHit.collider == null)
-        {
-            transform.up = new Vector3(targetTransform.position.x - transform.position.x, targetTransform.position.y - transform.position.y, 0f);
-
-            agent.enabled = false;
-        }
-        else
-        {
-            agent.enabled = true;
-        }
-        attackCooldown -= Time.deltaTime;
     }
 }

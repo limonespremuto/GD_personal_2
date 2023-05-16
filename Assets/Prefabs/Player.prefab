@@ -255,7 +255,7 @@ MonoBehaviour:
   playerStatus: 1
   _interactibles:
     serializedVersion: 2
-    m_Bits: 8320
+    m_Bits: 8576
 --- !u!50 &5698796105020537717
 Rigidbody2D:
   serializedVersion: 4

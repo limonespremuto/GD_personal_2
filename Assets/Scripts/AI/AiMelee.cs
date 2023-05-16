@@ -41,13 +41,15 @@ public class AiMelee : AIBase
                 Colliders = Physics2D.OverlapCircleAll(transform.position + (transform.up * attackOfset), attackRadius, entityLayer);
                 foreach (Collider2D collider in Colliders)
                 {
-                    IHealth tHealth = collider.GetComponent<IHealth>();
-                    if (tHealth != null)
+                    IHealth iHealth = collider.GetComponent<IHealth>();
+                    IHealth myHealth = collider.GetComponent<IHealth>();
+
+                    if (iHealth != null && iHealth != myHealth)
                     {
-                        tHealth.TakeDamage(attackDamage);
+                        iHealth.TakeDamage(attackDamage);
+                        attackCooldown = attackRecoveryTime;
                     }
                 }
-                attackCooldown = attackRecoveryTime;
                 
                 
                 GameObject attackEffect = attackEffectPool.Dequeue();

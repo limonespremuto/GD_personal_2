@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3218837111736937179}
   - component: {fileID: 3218837111736937178}
   - component: {fileID: 3218837111736937176}
+  - component: {fileID: 2925707552790334422}
   m_Layer: 8
   m_Name: Crate
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cHealthStats: {fileID: 11400000, guid: d31e34f484201ec43a7070d66cf167aa, type: 2}
   currentHealth: 0
+  ItemsDroppedOnDeath: []
 --- !u!61 &3218837111736937176
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -74,6 +76,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2925707552790334422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3218837111736937173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 854275d8d48fb164a99dcc1dea0e80d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectsToActivate: []
+  ObjectsToDisable: []
+  healtScriptToDamage:
+  - {fileID: 3218837111736937178}
+  damage: 500
 --- !u!1 &3218837113082657593
 GameObject:
   m_ObjectHideFlags: 0

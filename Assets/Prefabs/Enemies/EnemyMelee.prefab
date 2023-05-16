@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 0}
-  agroRange: 8
+  DetectionRange: 10
   stopDistance: 1
   speed: 4.5
   worldLayer:
@@ -62,7 +62,9 @@ MonoBehaviour:
     m_Bits: 128
   entityLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1792
+  myTeam: 1
+  checkTime: 1
   attackRadius: 0.5
   attackOfset: 0.5
   attackDamage: 50

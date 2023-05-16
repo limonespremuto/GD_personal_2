@@ -10,7 +10,7 @@ public class Button : MonoBehaviour
     //[SerializeField]
     //private bool _playerInside = false;
     
-    public void Interact()
+    public virtual void Interact()
     {
         foreach (GameObject go in ObjectsToActivate)
         {

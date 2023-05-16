@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class AIBase : MonoBehaviour
     protected NavMeshAgent agent;
 
     [SerializeField, Tooltip("are where this enemy can hear the player, currently it just need to be whitin")]
-    protected float agroRange = 3f;
+    protected float DetectionRange = 10f;
     [SerializeField]
     protected float stopDistance = 1f;
     protected float distanceToTarget;
@@ -21,6 +22,18 @@ public class AIBase : MonoBehaviour
     protected LayerMask worldLayer;
     [SerializeField]
     protected LayerMask entityLayer;
+    public ETeam myTeam = ETeam.Object;
+
+    [Tooltip("how much time before AI updates target")]
+    public float checkTime = 1f;
+    protected float _CheckTimeCooldown = 0f;
+
+    public enum ETeam
+    {
+        Object,
+        Zombies,
+        Soldiers
+    }
 
     // Start is called before the first frame update
     protected void Start()
@@ -29,27 +42,37 @@ public class AIBase : MonoBehaviour
         //agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = speed;
-
+        _CheckTimeCooldown += UnityEngine.Random.Range(0f, checkTime);
     }
 
     // Update is called once per frame
     protected void Update()
     {
-        distanceToTarget = Vector2.Distance(transform.position, targetTransform.position);
-        //Debug.Log(distanceToTarget);
-
-        bool hasSight = CheckSight(transform.position, worldLayer);    
-
-        if (distanceToTarget <= agroRange && agent.isActiveAndEnabled && hasSight)
+        if (targetTransform != null)
         {
-            agent.SetDestination(targetTransform.position);
+            distanceToTarget = Vector2.Distance(transform.position, targetTransform.position);
+            //Debug.Log(distanceToTarget);
+
+            bool hasSight = CheckSight(targetTransform.position, worldLayer);    
+
+            if (distanceToTarget <= DetectionRange && agent.isActiveAndEnabled && hasSight)
+            {
+                agent.SetDestination(targetTransform.position);
+            }
         }
 
+        if (_CheckTimeCooldown <= 0)
+        {
+            FindEnemyInArea(DetectionRange, entityLayer);
+            _CheckTimeCooldown = checkTime;
+        }
+
+        _CheckTimeCooldown -= Time.deltaTime;
     }
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, agroRange);
+        Gizmos.DrawWireSphere(transform.position, DetectionRange);
 
     }
 
@@ -73,5 +96,45 @@ public class AIBase : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void FindEnemyInArea( float range, LayerMask enemyTeamsLayer)
+    {
+        Collider2D[] foundTargets = Physics2D.OverlapCircleAll(transform.position, range, enemyTeamsLayer);
+
+        HashSet<Transform> targets = new HashSet<Transform>();
+
+        foreach (Collider2D foundTarget in foundTargets)
+        {
+            if (CheckSight(foundTarget.transform.position, worldLayer))
+            {
+                AIBase targetToAdd = foundTarget.GetComponentInParent<AIBase>();
+                if (targetToAdd != null)
+                {
+                    if (targetToAdd.myTeam != myTeam)
+                    {
+                        targets.Add(targetToAdd.transform);
+                    }
+                }
+            
+                if (foundTarget.GetComponentInParent<PlayerController>() != null)
+                {
+                    targets.Add(foundTarget.transform.root);
+                }
+            }
+        }
+
+        List<Transform> trans = new List<Transform>();
+        foreach (Transform t in targets)
+        {
+            trans.Add(t);
+        }
+
+        Transform[] transforms = trans.ToArray();
+        Array.Sort(transforms,new DistanceComparer(transform));
+        if (transforms.Length != 0)
+        {
+            targetTransform = transforms[0];
+        }
     }
 }
