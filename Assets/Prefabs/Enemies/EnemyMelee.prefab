@@ -62,7 +62,7 @@ MonoBehaviour:
     m_Bits: 128
   entityLayer:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 5888
   myTeam: 1
   checkTime: 1
   attackRadius: 0.5

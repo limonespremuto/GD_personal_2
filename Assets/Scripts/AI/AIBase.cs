@@ -86,7 +86,7 @@ public class AIBase : MonoBehaviour
     {
         Vector2 start = new Vector2(transform.position.x, transform.position.y);
         Vector2 end = new Vector2(target.x, target.y);
-        float distance = Vector2.Distance(start, end);
+        float distance = Vector2.Distance(start, end) -0.2f;
 
         RaycastHit2D CheckHit = Physics2D.Raycast(start, end, distance, layermask);
 

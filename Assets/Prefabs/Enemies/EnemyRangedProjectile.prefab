@@ -50,7 +50,7 @@ MonoBehaviour:
   speed: 0
   layerCheck:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 6016
 --- !u!1 &5376681383537755919
 GameObject:
   m_ObjectHideFlags: 0

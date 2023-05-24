@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class AITurret : MonoBehaviour
 
     public LayerMask worldLayer;
     public LayerMask destructibleLayer;
+    public LayerMask enemyLayer;
 
     [SerializeField]
     Transform _gunTranform;
@@ -33,7 +35,8 @@ public class AITurret : MonoBehaviour
     public float projectileSpeed = 10f;
     public float projectileRange = 10f;
 
-
+    [SerializeField]
+    AIBase.ETeam myTeam = AIBase.ETeam.Soldiers;
 
     [SerializeField]
     private GOPoolScript.Pool _shootGOPool = new GOPoolScript.Pool();
@@ -49,11 +52,12 @@ public class AITurret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FindEnemyInArea(_detectionDistance, destructibleLayer);
         float distance = Vector2.Distance(transform.position, targetTransform.position);
         bool hasSight = CheckSight(targetTransform.position, worldLayer);
         bool isInAngle = CheckAngle(transform.position, transform.up, targetTransform.position, _detectionAngle);
         //Debug.Log(distance + " " + hasSight + " " + isInAngle);
-        if (hasSight && isInAngle && distance <= _detectionDistance)
+        if (hasSight && isInAngle && distance <= _detectionDistance && targetTransform.gameObject.activeSelf)
         {
             RotateTurretTowards(targetTransform.position);
             _targetLossTime = _targetLossDelay;
@@ -70,6 +74,8 @@ public class AITurret : MonoBehaviour
 
     private void Shoot()
     {
+
+
         if (_fireRecoveryDelay <= 0f)
         {
             GameObject attackPrefab = _attackPrefabPool.Dequeue();
@@ -142,10 +148,51 @@ public class AITurret : MonoBehaviour
 
         _gunTranform.rotation = Quaternion.RotateTowards(_gunTranform.rotation, toRotation, _rotationSpeed * Time.deltaTime);
     }
+    public void FindEnemyInArea(float range, LayerMask enemyTeamsLayer)
+    {
+        Collider2D[] foundTargets = Physics2D.OverlapCircleAll(transform.position, range, enemyTeamsLayer);
+
+        HashSet<Transform> targets = new HashSet<Transform>();
+
+        foreach (Collider2D foundTarget in foundTargets)
+        {
+            if (CheckSight(foundTarget.transform.position, worldLayer) && 
+                CheckAngle(transform.position, transform.up, foundTarget.transform.position, _detectionAngle))
+            {
+                AIBase targetToAdd = foundTarget.GetComponentInParent<AIBase>();
+                if (targetToAdd != null)
+                {
+                    if (targetToAdd.myTeam != myTeam)
+                    {
+                        targets.Add(targetToAdd.transform);
+                    }
+                }
+
+                if (foundTarget.GetComponentInParent<PlayerController>() != null)
+                {
+                    targets.Add(foundTarget.transform.root);
+                }
+            }
+        }
+
+        List<Transform> trans = new List<Transform>();
+        foreach (Transform t in targets)
+        {
+            trans.Add(t);
+        }
+
+        Transform[] transforms = trans.ToArray();
+        Array.Sort(transforms, new DistanceComparer(transform));
+        if (transforms.Length != 0)
+        {
+            targetTransform = transforms[0];
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _detectionDistance);
     }
+
 }

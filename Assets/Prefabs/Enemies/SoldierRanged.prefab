@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 1199601971872224603}
   - component: {fileID: 1199601971872224602}
   m_Layer: 10
-  m_Name: SoldierRanged 1
+  m_Name: SoldierRanged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

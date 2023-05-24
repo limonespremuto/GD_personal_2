@@ -170,20 +170,24 @@ MonoBehaviour:
   destructibleLayer:
     serializedVersion: 2
     m_Bits: 1792
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 5120
   _gunTranform: {fileID: 6500813026611941053}
   _detectionAngle: 60
-  _detectionDistance: 30
+  _detectionDistance: 19
   _shootAngle: 5
-  _targetLossDelay: 1
+  _targetLossDelay: 0.25
   _rotationSpeed: 30
   MuzzleTransform: {fileID: 6500813027303515463}
   fireCooldown: 0.25
   attackDamage: 10
   projectileSpeed: 20
   projectileRange: 30
+  myTeam: 2
   _shootGOPool:
-    tag: EnemyAttackRanged
-    prefab: {fileID: 3816824974466339770, guid: e3f2b478b54364c48b5121c5e0f586ef, type: 3}
+    tag: EnemyAttackRangedProjectile
+    prefab: {fileID: 3816824974466339770, guid: 3b6ff1d676197fa459ac0c1310342b26, type: 3}
     size: 50
 --- !u!1 &5071025526779833630
 GameObject:

@@ -14672,6 +14672,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0023d2222bbfe4a43ae93c30f680d4c1, type: 3}
+--- !u!1 &1140025316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3218837111736937173, guid: 33d7dd2310c0ad74eb84e00fb009f6c7, type: 3}
+  m_PrefabInstance: {fileID: 1782655272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1291762407
 GameObject:
   m_ObjectHideFlags: 0
@@ -17788,6 +17793,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2925707552790334422, guid: 33d7dd2310c0ad74eb84e00fb009f6c7, type: 3}
+      propertyPath: ObjectsToDisable.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925707552790334422, guid: 33d7dd2310c0ad74eb84e00fb009f6c7, type: 3}
+      propertyPath: ObjectsToDisable.Array.data[0]
+      value: 
+      objectReference: {fileID: 1140025316}
     - target: {fileID: 3218837111736937173, guid: 33d7dd2310c0ad74eb84e00fb009f6c7, type: 3}
       propertyPath: m_Name
       value: Crate_2

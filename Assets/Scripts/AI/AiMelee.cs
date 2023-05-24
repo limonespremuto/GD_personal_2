@@ -42,21 +42,25 @@ public class AiMelee : AIBase
                 foreach (Collider2D collider in Colliders)
                 {
                     IHealth iHealth = collider.GetComponent<IHealth>();
-                    IHealth myHealth = collider.GetComponent<IHealth>();
+                    IHealth myHealth = transform.GetComponent<IHealth>();
 
                     if (iHealth != null && iHealth != myHealth)
                     {
                         iHealth.TakeDamage(attackDamage);
                         attackCooldown = attackRecoveryTime;
                     }
+
+                    if (iHealth != myHealth)
+                    {
+                        GameObject attackEffect = attackEffectPool.Dequeue();
+                        attackEffect.transform.position = transform.position + (transform.up * attackOfset);
+                        attackEffect.SetActive(true);
+                        attackEffect.transform.up = transform.up;
+                        attackEffectPool.Enqueue(attackEffect);
+                    }
                 }
                 
                 
-                GameObject attackEffect = attackEffectPool.Dequeue();
-                attackEffect.transform.position = transform.position + (transform.up * attackOfset);
-                attackEffect.SetActive(true);
-                attackEffect.transform.up = transform.up;
-                attackEffectPool.Enqueue(attackEffect);
             }
 
         }
