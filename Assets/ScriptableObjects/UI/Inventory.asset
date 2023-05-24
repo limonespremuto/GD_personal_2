@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59787eb0fa6b177428a519c52decf355, type: 3}
   m_Name: Inventory
   m_EditorClassIdentifier: 
-  Items:
-  - {fileID: 2881670534889437456, guid: 3f4272bfb50dc9243ac5bdc0bb203220, type: 3}
-  ammos:
-  - StartingAmmo: 12
-    ammotype: 0
+  guns:
+  - {fileID: 11400000, guid: a0a45ff7541740c4cb0919f28ccfb6ef, type: 2}
+  - {fileID: 11400000, guid: 289b2a511a1bb0847a026eafabf8f058, type: 2}
+  medikits: 0
+  cash: 0

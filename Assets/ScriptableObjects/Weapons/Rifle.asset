@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60420c80f6ccbbc4490ccb8337946f57, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
+  IsAvailable: 1
   damage: 34
   range: 7
   rateOfFire: 3.34
   recoil: 0
-  ammoTypeName: rifle rounds
-  StartingAmmo: 25
   clipSize: 25
-  currentClipAmmo: 0
+  currentClipAmmo: 25
+  reserveAmmo: 65
   reloadTime: 2.6
   audioClips:
   - {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}

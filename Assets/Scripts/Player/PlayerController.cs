@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour, IHealth
     
     private Vector2 moveVector = Vector2.zero;
     
-    [SerializeField]
-    WeaponScript weaponScript;
+    
+    public WeaponScript weaponScript;
 
     [SerializeField]
     private Transform playerTransform;

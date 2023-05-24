@@ -9,6 +9,7 @@ public class ScriptableGunStats : ScriptableObject
     //public string weaponDescription = "no description";
     //public Sprite weaponImage;
 
+    public bool IsAvailable = false;
     public float damage = 5f;
     public float range = 10f;
     public float rateOfFire = 2f;
@@ -20,7 +21,7 @@ public class ScriptableGunStats : ScriptableObject
     //public int StartingAmmo = 0;
     public int clipSize = 30;
     public int currentClipAmmo = 0;
-    public InventorySO.Ammo ammo;
+    public int reserveAmmo = 0;
 
 
     public float reloadTime = 2f;

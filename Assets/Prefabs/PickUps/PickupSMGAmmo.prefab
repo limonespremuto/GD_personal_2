@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1855453925, guid: 89ab54a21cc3ed741b14141e128fc2ad, type: 3}
+  m_Sprite: {fileID: -1356239357, guid: 89ab54a21cc3ed741b14141e128fc2ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,10 +125,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1373319543836430894}
-  - component: {fileID: 1373319543836430892}
   - component: {fileID: 1373319543836430895}
+  - component: {fileID: 553835151662044912}
   m_Layer: 11
-  m_Name: PickupRifle
+  m_Name: PickupSMGAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,24 +150,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1373319543836430892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373319543836430893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cf022d250b994478131cf473a86ad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  addsItem: 1
-  itemPrefab: {fileID: 2881670534889437456, guid: 205c555eb71c5dd44a33b75c4d729115, type: 3}
-  addsAmmo: 1
-  ammoType:
-    StartingAmmo: 12
-    ammotype: 1
 --- !u!58 &1373319543836430895
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -184,3 +166,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &553835151662044912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373319543836430893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88db275e06bb5c4b998d037e7d6af8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoID: 1
+  addedAmmo: 36

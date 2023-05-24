@@ -29,8 +29,8 @@ public class HealtScipt : MonoBehaviour, IHealth
             foreach (GameObject gO in ItemsDroppedOnDeath)
             {
                 Vector3 droppedItemPos = transform.position;
-                droppedItemPos.y += Random.Range(0f, 1f);
-                droppedItemPos.x += Random.Range(0f, 1f);
+                droppedItemPos.y += Random.Range(0f, 0.2f);
+                droppedItemPos.x += Random.Range(0f, 0.2f);
                 Instantiate(gO, droppedItemPos, Quaternion.identity);
             }
             DisableGO();

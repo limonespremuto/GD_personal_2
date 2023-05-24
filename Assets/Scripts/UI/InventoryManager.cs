@@ -9,56 +9,80 @@ public class InventoryManager : MonoBehaviour
     public InventorySO inventorySO;
     [SerializeField]
     Transform InventoryUITransform;
-    [SerializeField]
-    private TextMeshProUGUI ammoTMPText;
-    public Dictionary<string, int> ammoInInventory;
 
+
+    public TextMeshProUGUI medkitsText;
+    public TextMeshProUGUI cashText;
+
+    //[Tooltip("its ID in this list is what changes it.")]
+    public Guns[] uiGuns;
+
+    private WeaponScript _playerWeaponScript;
+    
+    [System.Serializable]
+    public class Guns
+    {
+        public Transform uiGunTransform;
+        public TextMeshProUGUI gunNameField;
+        public TextMeshProUGUI ammoField;
+    }
 
     private void Awake()
     {
         instace = this;
-        ammoInInventory = new Dictionary<string, int>();
-        //ammoInInventory = new Dictionary<string, int>();
-        foreach (InventorySO.Ammo ammo in inventorySO.ammos)
-        {
-            ammoInInventory.Add(ammo.GetAmmoName(), ammo.StartingAmmo);
-            //Debug.Log(ammoInInventory.Count);
-        }
     }
 
-    public void UpdateDisplayedItems()
+    private void Start()
     {
-        int itemID = 0;
-
-        for (int i = 0; i < InventoryUITransform.transform.childCount; i++)
-        {
-            Destroy(InventoryUITransform.transform.GetChild(i).gameObject);
-        }
-
-
-
-        foreach (GameObject item in inventorySO.Items)
-        {
-            GameObject uiItem = Instantiate(item);
-            uiItem.transform.SetParent(InventoryUITransform);
-
-
-            Item itemSc= uiItem.GetComponent<Item>();
-            itemSc.itemID = itemID;
-            itemID++;
-        }
-        string AmmoText = "";
-        foreach (var valuePair in ammoInInventory)
-        {
-            AmmoText = AmmoText + valuePair.Key + " [" + valuePair.Value + "] ";
-        }
-        ammoTMPText.text = AmmoText;
+        _playerWeaponScript = PlayerController.instance.weaponScript;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !_playerWeaponScript.isReloading)
+        {
+            PlayerController.instance.weaponScript.cGunStats = inventorySO.guns[0];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && !_playerWeaponScript.isReloading)
+        {
+            if (inventorySO.guns.Length - 1 >= 1)
+                PlayerController.instance.weaponScript.cGunStats = inventorySO.guns[1];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && !_playerWeaponScript.isReloading)
+        {
+            if (inventorySO.guns.Length -1 >= 2)
+                PlayerController.instance.weaponScript.cGunStats = inventorySO.guns[2];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && !_playerWeaponScript.isReloading)
+        {
+            if (inventorySO.guns.Length - 1 >= 3)
+                PlayerController.instance.weaponScript.cGunStats = inventorySO.guns[3];
+        }
+
+        UpdateWeaponDisplay();
+    }
+
+    public void UpdateWeaponDisplay()
+    {
+        int AmmoToDisplay;
+        for (int i = 0; i < inventorySO.guns.Length; i++)
+        {
+            AmmoToDisplay = inventorySO.guns[i].reserveAmmo + inventorySO.guns[i].currentClipAmmo;
+            uiGuns[i].gunNameField.text = inventorySO.guns[i].name;
+            uiGuns[i].ammoField.text = " " + AmmoToDisplay;
+            uiGuns[i].uiGunTransform.gameObject.SetActive(inventorySO.guns[i].IsAvailable);
+        }
+
+        cashText.text = "Cash: " + inventorySO.cash;
+        medkitsText.text = "Medkits: " + inventorySO.medkits;
+    }
+
+    /*
     public void removeItemByID(int ID)
     {
         inventorySO.Items.RemoveAt(ID);
         UpdateDisplayedItems();
         
     }
+    */
 }

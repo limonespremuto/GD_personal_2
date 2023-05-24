@@ -73,8 +73,8 @@ public class UIManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.I))
                 {
-                    UpdateUIState((int)UIState.inventory);
-                    break;
+                    //UpdateUIState((int)UIState.inventory);
+                    //break;
                 }
                 break;
             case UIState.paused:
@@ -91,8 +91,8 @@ public class UIManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.I))
                 {
-                    UpdateUIState((int)UIState.Playng);
-                    break;
+                    //((int)UIState.Playng);
+                    //break;
                 }
                 break;
             case UIState.defeat:
@@ -119,7 +119,7 @@ public class UIManager : MonoBehaviour
                 uIState = UIState.Playng;
                 PauseMenuScreen.gameObject.SetActive(false);
                 optionsScreen.gameObject.SetActive(false);
-                inventory.gameObject.SetActive(false);
+                inventory.gameObject.SetActive(true);
                 HUD.gameObject.SetActive(true);
                 Time.timeScale = 1f;
                 break;
@@ -139,7 +139,7 @@ public class UIManager : MonoBehaviour
                 optionsScreen.gameObject.SetActive(false);
                 inventory.gameObject.SetActive(true);
                 HUD.gameObject.SetActive(false);
-                inventoryManager.UpdateDisplayedItems();
+                inventoryManager.UpdateWeaponDisplay();
                 Time.timeScale = 0;
                 break;
             case 3: // defeat

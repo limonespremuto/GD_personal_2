@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1356239357, guid: 89ab54a21cc3ed741b14141e128fc2ad, type: 3}
+  m_Sprite: {fileID: -1855453925, guid: 89ab54a21cc3ed741b14141e128fc2ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,8 +127,9 @@ GameObject:
   - component: {fileID: 1373319543836430894}
   - component: {fileID: 1373319543836430892}
   - component: {fileID: 1373319543836430895}
+  - component: {fileID: 3642977117958830335}
   m_Layer: 11
-  m_Name: PickupRifleAmmo
+  m_Name: PickupSMG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,13 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0cf022d250b994478131cf473a86ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addsItem: 0
-  itemPrefab: {fileID: 0}
-  addsAmmo: 1
-  ammoType:
-    ammoTypeName: pistol rounds
-    StartingAmmo: 12
-    ammotype: 1
 --- !u!58 &1373319543836430895
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -185,3 +179,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3642977117958830335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373319543836430893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a50848e8a870f4abf5844e43a412f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoID: 1
+  addedAmmo: 36
+  AddedGunID: 1

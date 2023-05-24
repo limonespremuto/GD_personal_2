@@ -125,8 +125,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1373319543836430894}
-  - component: {fileID: 1373319543836430892}
   - component: {fileID: 1373319543836430895}
+  - component: {fileID: 4796570571791065616}
   m_Layer: 11
   m_Name: PickupPistol
   m_TagString: Untagged
@@ -150,24 +150,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1373319543836430892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373319543836430893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cf022d250b994478131cf473a86ad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  addsItem: 1
-  itemPrefab: {fileID: 2881670534889437456, guid: 3f4272bfb50dc9243ac5bdc0bb203220, type: 3}
-  addsAmmo: 1
-  ammoType:
-    StartingAmmo: 12
-    ammotype: 0
 --- !u!58 &1373319543836430895
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -184,3 +166,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &4796570571791065616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373319543836430893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a50848e8a870f4abf5844e43a412f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoID: 0
+  addedAmmo: 12
+  AddedGunID: 0

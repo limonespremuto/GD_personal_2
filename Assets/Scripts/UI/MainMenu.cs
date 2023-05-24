@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public string dungeon1Name;
     public InventorySO inventory;
-    public InventorySO.Ammo[] startingAmmo;
+    public int startingAmmo;
     public List<GameObject> startingItems;
     public bool deleteIventory = true;
 
@@ -17,15 +17,16 @@ public class MainMenu : MonoBehaviour
 
         if (deleteIventory)
         {
-            inventory.Items = new List<GameObject>();
-            inventory.Items = startingItems;
-
-            inventory.ammoInInventory = new Dictionary<string, int>();
-            foreach (InventorySO.Ammo ammo in startingAmmo)
+            foreach (ScriptableGunStats Gun in inventory.guns)
             {
-                inventory.ammoInInventory.Add(ammo.GetAmmoName(), ammo.StartingAmmo);
-                //Debug.Log(ammoInInventory.Count);
+                Gun.reserveAmmo = 0;
+                Gun.currentClipAmmo = 0;
+                Gun.IsAvailable = false;
             }
+            inventory.guns[0].reserveAmmo = startingAmmo;
+            inventory.guns[0].IsAvailable = true;
+            inventory.medkits = 0;
+            inventory.cash = 0;
         }
     }
 
