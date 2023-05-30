@@ -54,6 +54,7 @@ public class AIRanged : AIBase
                             pS.damage = attackDamage;
                             pS.speed = projectileSpeed;
                             pS.activeTime = projectileRange / projectileSpeed;
+                            pS.myTeam = myTeam;
                             //pS.layerCheck = entityLayer | worldLayer;
 
                         }

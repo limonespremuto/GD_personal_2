@@ -85,22 +85,24 @@ public class AIBase : MonoBehaviour
     protected bool CheckSight(Vector3 target, LayerMask layermask)
     {
         Vector2 start = new Vector2(transform.position.x, transform.position.y);
-        Vector2 end = new Vector2(target.x, target.y);
-        float distance = Vector2.Distance(start, end) -0.2f;
+        Vector2 end = new Vector2(target.x - transform.position.x , target.y - transform.position.y);
+        float distance = Vector2.Distance(transform.position, target);
 
-        RaycastHit2D CheckHit = Physics2D.Raycast(start, end, distance, layermask);
-
-        if (CheckHit == false)
+        if (!Physics2D.Raycast(start, end, distance, layermask))
         {
+            Debug.DrawLine(start, (Vector2)target, Color.green);
             return true;
         }
 
+        Debug.DrawLine(start, (Vector2)target, Color.red);
         return false;
     }
 
     public void FindEnemyInArea( float range, LayerMask enemyTeamsLayer)
     {
         Collider2D[] foundTargets = Physics2D.OverlapCircleAll(transform.position, range, enemyTeamsLayer);
+
+        
 
         HashSet<Transform> targets = new HashSet<Transform>();
 

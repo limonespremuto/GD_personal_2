@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: conc_slabs01_s
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: abda5ba823014904d982e000302330d7, type: 3}
-  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0.34901962}
+  m_Sprite: {fileID: 21300000, guid: dfd2558ffa151af4587fdb66b9ba3374, type: 3}
+  m_Color: {r: 0.482, g: 0.482, b: 0.482, a: 0.7176471}
   m_Transform:
     e00: 1
     e01: 0

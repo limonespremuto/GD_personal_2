@@ -10,6 +10,7 @@ public class ProjectileScript : MonoBehaviour
     public float damage;
     public float speed;
     public LayerMask layerCheck;
+    public AIBase.ETeam myTeam;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -25,16 +26,39 @@ public class ProjectileScript : MonoBehaviour
         if (hit = Physics2D.Raycast(transform.position, transform.up, speed * Time.deltaTime, layerCheck))
         {
             IHealth ihealt = hit.transform.GetComponent<IHealth>();
+            AIBase aiBase = hit.transform.GetComponent<AIBase>();
             if (ihealt != null)
             {
-                ihealt.TakeDamage(damage);
+                if (aiBase != null)
+                {
+                    if (aiBase.myTeam != myTeam)
+                    {
+                        ihealt.TakeDamage(damage);
+                    }
+                }
+                else
+                {
+                    ihealt.TakeDamage(damage);
+                }
             }
-            gameObject.SetActive(false);
+
+            if (aiBase != null)
+            {
+                if (aiBase.myTeam != myTeam)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+
+
         }
-
         transform.position += transform.up * speed * Time.deltaTime;
-
         if (remainingTime <= 0f)
             gameObject.SetActive(false);
+
     }
 }
